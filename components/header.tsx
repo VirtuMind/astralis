@@ -14,7 +14,7 @@ const GlassSurface = dynamic(() => import("./GlassSurface"), {
 });
 
 const navigation = [
-  { name: "Home", href: "/" },
+  { name: "Gallery", href: "/" },
   { name: "Cosmic Spotlight", href: "/spotlight" },
   { name: "Terra", href: "/terra" },
   { name: "About", href: "/about" },
@@ -66,7 +66,7 @@ export function Header() {
             })}
           </GlassSurface>
           {/* Sound Toggle - Right */}
-          <div className="pointer-events-auto flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <AmbientSoundToggle className="opacity-50 hover:opacity-100" />
 
             {/* Mobile Menu Button */}

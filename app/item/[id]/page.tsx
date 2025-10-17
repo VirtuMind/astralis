@@ -1,15 +1,10 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
-import { NASAAttribution } from "@/components/nasa-attribution";
-import { Button } from "@/components/ui/button";
+
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ShareButtons } from "@/components/share-buttons";
-import { Calendar, ArrowLeft, ExternalLink, Video } from "lucide-react";
-import { fetchAPOD, normalizeAPOD } from "@/lib/adapters/apod";
-import { fetchEPIC, normalizeEPIC } from "@/lib/adapters/epic";
+import { Calendar } from "lucide-react";
 import {
   fetchLibraryImages,
   normalizeLibraryItem,
@@ -27,45 +22,6 @@ async function getItemData(
   return normalized;
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
-  const item = await getItemData(params.id);
-
-  if (!item) {
-    return {
-      title: "Item Not Found",
-    };
-  }
-
-  return {
-    title: `${item.title} | NASA Explorer`,
-    description: item.description.slice(0, 160),
-    openGraph: {
-      title: item.title,
-      description: item.description.slice(0, 160),
-      images: [
-        {
-          url: item.imageUrl,
-          width: 1200,
-          height: 630,
-          alt: item.title,
-        },
-      ],
-      type: "article",
-      publishedTime: item.date,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: item.title,
-      description: item.description.slice(0, 160),
-      images: [item.imageUrl],
-    },
-  };
-}
-
 export default async function ItemDetailPage({
   params,
 }: {
@@ -79,7 +35,7 @@ export default async function ItemDetailPage({
 
   return (
     <>
-      <main className="container py-8">
+      <main className="container pt-32">
         <div className="grid gap-8 lg:grid-cols-2">
           <Card className="overflow-hidden border-border/50 bg-card">
             <div className="relative aspect-square overflow-hidden bg-secondary">
@@ -136,10 +92,6 @@ export default async function ItemDetailPage({
             <div>
               <h3 className="mb-3 font-semibold text-sm">Share this image</h3>
               <ShareButtons title={item.title} />
-            </div>
-
-            <div className="mt-auto">
-              <NASAAttribution />
             </div>
           </div>
         </div>

@@ -7,9 +7,9 @@ export default function NotFound() {
       <div className="text-center">
         <h1 className="mb-4 font-bold text-5xl text-primary">404</h1>
 
-        <h2 className="mb-4 font-bold text-xl">Item not found</h2>
+        <h2 className="mb-4 font-bold text-xl">Nothing found here</h2>
         <p className="mb-8 text-foreground">
-          The item you are looking for may exist in a parallel universe though.
+          What you are looking for may exist in a parallel universe though.
         </p>
 
         <Link

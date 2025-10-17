@@ -5,6 +5,7 @@ import { GeistMono } from "geist/font/mono";
 import { Analytics } from "@vercel/analytics/next";
 import "@/styles/globals.css";
 import { Header } from "@/components/header";
+import { GalaxyWrapper } from "@/components/wrappers/GalaxyWrapper";
 
 export const metadata: Metadata = {
   title: "Astralis - Scroll through the cosmos",
@@ -22,8 +23,9 @@ export default function RootLayout({
       <body
         className={`m-0 p-0 font-sans ${GeistSans.variable} ${GeistMono.variable}`}
       >
+        <GalaxyWrapper />
         <Header />
-        <div className="min-h-screen">{children}</div>
+        <div className="relative min-h-screen">{children}</div>
         <Analytics />
       </body>
     </html>
