@@ -2,7 +2,6 @@ import type React from "react";
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { Analytics } from "@vercel/analytics/next";
 import "@/styles/globals.css";
 import { Header } from "@/components/header";
 import { GalaxyWrapper } from "@/components/wrappers/GalaxyWrapper";
@@ -26,7 +25,6 @@ export default function RootLayout({
         <GalaxyWrapper />
         <Header />
         <div className="relative min-h-screen">{children}</div>
-        <Analytics />
       </body>
     </html>
   );
