@@ -66,8 +66,8 @@ export function Header() {
             })}
           </GlassSurface>
           {/* Sound Toggle - Right */}
-          <div className="flex items-center gap-2">
-            <AmbientSoundToggle className="opacity-50 hover:opacity-100" />
+          <div className="pointer-events-auto flex items-center gap-2">
+            <AmbientSoundToggle />
 
             {/* Mobile Menu Button */}
             <Button

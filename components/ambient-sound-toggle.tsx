@@ -1,39 +1,27 @@
 "use client";
 
-import { Volume2, VolumeX } from "lucide-react";
-import { Button } from "./ui/button";
+import { Volume2, VolumeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useAmbientSound } from "@/hooks/use-ambient-sound";
-import { cn } from "@/lib/utils";
 
-interface AmbientSoundToggleProps {
-  className?: string;
-}
-
-export function AmbientSoundToggle({ className }: AmbientSoundToggleProps) {
+export function AmbientSoundToggle() {
   const { isPlaying, toggle, isLoaded } = useAmbientSound();
 
-  if (!isLoaded) {
-    return null;
-  }
-
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={toggle}
+    <div
+      onClick={isLoaded ? toggle : undefined}
       aria-pressed={isPlaying}
-      className={cn("relative h-9 w-9", className)}
       aria-label={isPlaying ? "Mute ambient sound" : "Play ambient sound"}
       title={isPlaying ? "Mute ambient sound" : "Play ambient sound"}
+      className="h-11 w-11 cursor-pointer transition-all duration-200 opacity-60 hover:opacity-100  hover:bg-transparent hover:text-white flex justify-center items-center"
     >
       {isPlaying ? (
         <>
           <Volume2 className="h-5 w-5" />
-          <span className="absolute top-1 right-1 h-2 w-2 animate-pulse rounded-full bg-primary" />
         </>
       ) : (
-        <VolumeX className="h-5 w-5" />
+        <VolumeOff className="h-5 w-5" />
       )}
-    </Button>
+    </div>
   );
 }
