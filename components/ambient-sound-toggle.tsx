@@ -13,7 +13,7 @@ export function AmbientSoundToggle() {
       aria-pressed={isPlaying}
       aria-label={isPlaying ? "Mute ambient sound" : "Play ambient sound"}
       title={isPlaying ? "Mute ambient sound" : "Play ambient sound"}
-      className="h-11 w-11 cursor-pointer transition-all duration-200 opacity-60 hover:opacity-100  hover:bg-transparent hover:text-white flex justify-center items-center"
+      className="h-8 w-8 cursor-pointer transition-all duration-200 opacity-60 hover:opacity-100  hover:bg-transparent hover:text-white flex justify-center items-center"
     >
       {isPlaying ? (
         <>
