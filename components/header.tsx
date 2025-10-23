@@ -43,6 +43,7 @@ export function Header() {
             height={50}
             opacity={0.7}
             backgroundOpacity={0.25}
+            saturation={0.3}
             className="pointer-events-auto hidden md:flex items-center gap-1"
           >
             {navigation.map((item, index) => {
@@ -66,14 +67,12 @@ export function Header() {
             })}
           </GlassSurface>
           {/* Sound Toggle - Right */}
-          <div className="pointer-events-auto flex items-center gap-2">
+          <div className="pointer-events-auto flex justify-center items-center gap-2">
             <AmbientSoundToggle />
 
             {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
+            <div
+              className="md:hidden opacity-60 h-8 w-8 flex justify-center items-center "
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -82,36 +81,46 @@ export function Header() {
               ) : (
                 <Menu className="h-5 w-5" />
               )}
-            </Button>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="fixed top-20 left-4 right-4 z-50 rounded-2xl border border-white/10 bg-background/95 backdrop-blur-xl md:hidden">
-          <nav className="flex flex-col p-2">
-            {navigation.map((item, index) => {
-              const isActive = pathname === item.href;
+        <div className="fixed top-20 left-4 right-4 z-50 md:hidden">
+          <GlassSurface
+            width="100%"
+            height="auto"
+            borderRadius={20}
+            saturation={0.3}
+            backgroundOpacity={0.3}
+            // className="pointer-events-auto"
+          >
+            <nav className="flex w-full flex-col items-stretch py-1">
+              {navigation.map((item, index) => {
+                const isActive = pathname === item.href;
 
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={
-                    "flex min-h-[44px] items-center rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5 hover:text-white" +
-                    (isActive ? " text-white" : " text-white/70") +
-                    (index < navigation.length - 1
-                      ? " border-b border-white/10"
-                      : "")
-                  }
-                >
-                  {item.name}
-                </Link>
-              );
-            })}
-          </nav>
+                return (
+                  <div key={item.href} className="w-full">
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={
+                        "flex w-full min-h-[44px] items-center justify-start px-4 py-2 text-left text-sm font-medium transition-colors hover:text-white" +
+                        (isActive ? " text-white" : " text-white/70")
+                      }
+                    >
+                      {item.name}
+                    </Link>
+                    {index < navigation.length - 1 && (
+                      <div className="mx-2 h-px bg-white/15" />
+                    )}
+                  </div>
+                );
+              })}
+            </nav>
+          </GlassSurface>
         </div>
       )}
     </>
