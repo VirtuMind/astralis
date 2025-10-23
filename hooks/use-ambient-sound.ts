@@ -10,7 +10,7 @@ export function useAmbientSound() {
   useEffect(() => {
     const audio = new Audio("/ambient.mp3");
     audio.loop = true;
-    audio.volume = 0.3;
+    // audio.volume = 0.3;
     audio.preload = "auto";
 
     audio.addEventListener("canplaythrough", () => setIsLoaded(true));
