@@ -3,50 +3,55 @@
 import { useEffect, useState, useRef } from "react";
 
 export function useAmbientSound() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false); // disabled by default
   const [isLoaded, setIsLoaded] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Check localStorage for saved preference
-    const savedPreference = localStorage.getItem("ambient-sound-enabled");
-    if (savedPreference !== null) {
-      setIsPlaying(savedPreference === "true");
-    }
+    const audio = new Audio("/ambient.mp3");
+    audio.loop = true;
+    audio.volume = 0.3;
+    audio.preload = "auto";
 
-    // Create audio element
-    audioRef.current = new Audio("/ambient.mp3");
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.3;
-    audioRef.current.addEventListener("canplaythrough", () => {
-      setIsLoaded(true);
-    });
+    audio.addEventListener("canplaythrough", () => setIsLoaded(true));
+
+    audioRef.current = audio;
 
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
+      audio.pause();
+      audioRef.current = null;
     };
   }, []);
 
   useEffect(() => {
-    if (!audioRef.current || !isLoaded) return;
+    const audio = audioRef.current;
+    if (!audio || !isLoaded) return;
 
     if (isPlaying) {
-      audioRef.current.play().catch((error) => {
-        console.error("Audio playback failed:", error);
-        setIsPlaying(false);
-      });
+      audio
+        .play()
+        .catch((err) =>
+          console.warn("Playback blocked until user gesture:", err)
+        );
     } else {
-      audioRef.current.pause();
+      audio.pause();
     }
   }, [isPlaying, isLoaded]);
 
   const toggle = () => {
     const newState = !isPlaying;
     setIsPlaying(newState);
-    localStorage.setItem("ambient-sound-enabled", String(newState));
+
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (newState) {
+      audio.play().catch((err) => {
+        console.warn("Playback blocked:", err);
+      });
+    } else {
+      audio.pause();
+    }
   };
 
   return { isPlaying, toggle, isLoaded };
