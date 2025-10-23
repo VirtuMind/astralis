@@ -82,6 +82,10 @@ export async function fetchLibraryImages(
 export function normalizeLibraryItem(
   item: LibrarySearchItem
 ): NormalizedLibraryItem | null {
+  if (!item || !item.data || item.data.length === 0) {
+    return null;
+  }
+
   const data = item.data[0];
   const thumbnail = item.links?.find((l) => l.rel === "preview");
   const hdImage = item.links?.find((l) => l.rel === "canonical");
