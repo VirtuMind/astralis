@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Share2, Check, Twitter, Facebook, LinkIcon } from "lucide-react";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebookF } from "react-icons/fa";
 
 interface ShareButtonsProps {
   title: string;
@@ -77,7 +79,7 @@ export function ShareButtons({ title }: ShareButtonsProps) {
         onClick={handleTwitterShare}
         className="gap-2 bg-transparent"
       >
-        <Twitter className="h-4 w-4" />
+        <FaXTwitter className="h-4 w-4" />
         Twitter
       </Button>
 
@@ -87,16 +89,16 @@ export function ShareButtons({ title }: ShareButtonsProps) {
         onClick={handleFacebookShare}
         className="gap-2 bg-transparent"
       >
-        <Facebook className="h-4 w-4" />
+        <FaFacebookF className="h-4 w-4" />
         Facebook
       </Button>
 
-      {typeof navigator !== "undefined" && navigator.share && (
+      {typeof navigator !== "undefined" && (
         <Button
           variant="outline"
           size="sm"
           onClick={handleNativeShare}
-          className="gap-2 bg-transparent"
+          className="gap-2 bg-transparent "
         >
           <Share2 className="h-4 w-4" />
           Share
