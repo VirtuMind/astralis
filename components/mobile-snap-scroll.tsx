@@ -59,8 +59,28 @@ export function MobileSnapScroll({
     });
   };
 
+  // Set CSS custom property for viewport height on mobile
+  useEffect(() => {
+    const setVH = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+
+    setVH();
+    window.addEventListener("resize", setVH);
+    window.addEventListener("orientationchange", setVH);
+
+    return () => {
+      window.removeEventListener("resize", setVH);
+      window.removeEventListener("orientationchange", setVH);
+    };
+  }, []);
+
   return (
-    <div className="relative h-screen overflow-hidden">
+    <div
+      className="relative overflow-hidden"
+      style={{ height: "calc(var(--vh, 1vh) * 100)" }}
+    >
       {/* Fixed Action Buttons - Mobile Only */}
       <div className="fixed right-6 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-6 md:hidden">
         {/* View Details Button */}
@@ -119,7 +139,8 @@ export function MobileSnapScroll({
         {items.map((item, index) => (
           <div
             key={item.nasa_id}
-            className="relative h-screen w-full snap-start snap-always"
+            className="relative w-full snap-start snap-always"
+            style={{ height: "calc(var(--vh, 1vh) * 100)" }}
           >
             {/* Background image */}
             <div className="absolute inset-0">
@@ -178,7 +199,10 @@ export function MobileSnapScroll({
 
         {/* Loading indicator */}
         {isLoading && (
-          <div className="flex h-screen w-full snap-start items-center justify-center">
+          <div
+            className="flex w-full snap-start items-center justify-center"
+            style={{ height: "calc(var(--vh, 1vh) * 100)" }}
+          >
             <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
           </div>
         )}

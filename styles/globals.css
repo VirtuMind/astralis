@@ -132,6 +132,17 @@
     display: none;
   }
 
+  /* Fix for mobile viewport height with dynamic address bar */
+  html {
+    height: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    /* Fallback for browsers that don't support Custom Properties */
+    min-height: -webkit-fill-available;
+  }
+
   /* Add support for safe area insets on mobile */
   @supports (padding: env(safe-area-inset-bottom)) {
     .pb-safe {
