@@ -123,6 +123,15 @@
     @apply bg-background text-foreground;
   }
 
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Add support for safe area insets on mobile */
   @supports (padding: env(safe-area-inset-bottom)) {
     .pb-safe {
