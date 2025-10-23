@@ -7,15 +7,27 @@ import { FaXTwitter } from "react-icons/fa6";
 import { FaFacebookF } from "react-icons/fa";
 
 interface ShareButtonsProps {
-  title: string;
+  title?: string;
+  id?: string;
 }
 
-export function ShareButtons({ title }: ShareButtonsProps) {
+export function ShareButtons({ title, id }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
+
+  // Build the share URL - use item detail page if id is provided, otherwise current page
+  const getShareUrl = () => {
+    if (typeof window === "undefined") return "";
+    if (id) {
+      const origin = window.location.origin;
+      return `${origin}/item/${id}`;
+    }
+    return window.location.href;
+  };
 
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      const shareUrl = getShareUrl();
+      await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
@@ -24,9 +36,10 @@ export function ShareButtons({ title }: ShareButtonsProps) {
   };
 
   const handleTwitterShare = () => {
-    const url = encodeURIComponent(window.location.href);
+    const shareUrl = getShareUrl();
+    const url = encodeURIComponent(shareUrl);
     const text = encodeURIComponent(
-      `Check out this amazing space image: ${title}`
+      `Check out this amazing space image: ${title || "Astralis"}`
     );
     window.open(
       `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
@@ -36,9 +49,13 @@ export function ShareButtons({ title }: ShareButtonsProps) {
   };
 
   const handleFacebookShare = () => {
-    const url = encodeURIComponent(window.location.href);
+    const shareUrl = getShareUrl();
+    const url = encodeURIComponent(shareUrl);
+    const quote = encodeURIComponent(
+      `Check out this amazing space image: ${title || "Astralis"}`
+    );
     window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+      `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${quote}`,
       "_blank",
       "width=550,height=420"
     );
@@ -47,12 +64,17 @@ export function ShareButtons({ title }: ShareButtonsProps) {
   const handleNativeShare = async () => {
     if (navigator.share) {
       try {
+        const shareUrl = getShareUrl();
         await navigator.share({
-          title,
-          url: window.location.href,
+          title: title || "Astralis - Space Images",
+          text: `Check out this amazing space image: ${title || ""}`,
+          url: shareUrl,
         });
       } catch (error) {
-        console.error("Native share failed:", error);
+        // Ignore user cancelled error
+        if (error instanceof Error && error.name !== "AbortError") {
+          console.error("Native share failed:", error);
+        }
       }
     }
   };

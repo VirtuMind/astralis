@@ -94,8 +94,7 @@ export function Header() {
             height="auto"
             borderRadius={20}
             saturation={0.3}
-            backgroundOpacity={0.3}
-            // className="pointer-events-auto"
+            backgroundOpacity={0.7}
           >
             <nav className="flex w-full flex-col items-stretch py-1">
               {navigation.map((item, index) => {
@@ -107,8 +106,7 @@ export function Header() {
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
                       className={
-                        "flex w-full min-h-[44px] items-center justify-start px-4 py-2 text-left text-sm font-medium transition-colors hover:text-white" +
-                        (isActive ? " text-white" : " text-white/70")
+                        "flex w-full min-h-[44px] items-center justify-start px-4 py-2 text-left text-sm font-medium transition-colors hover:text-white"
                       }
                     >
                       {item.name}
