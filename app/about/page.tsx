@@ -1,109 +1,126 @@
-import { SiteHeader } from "@/components/header";
-import { NASAAttribution } from "@/components/nasa-attribution";
-import { Card } from "@/components/ui/card";
-import { Rocket, Sparkles, Globe, ImageIcon } from "lucide-react";
+import { Rocket, Sparkles, Globe, Mail, Github, Linkedin } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { FaXTwitter } from "react-icons/fa6";
 
 export default function AboutPage() {
   return (
-    <>
-      <main className="container py-8">
-        <div className="mx-auto max-w-3xl">
-          <h1 className="mb-4 font-bold text-4xl text-balance md:text-5xl">
-            About NASA Explorer
-          </h1>
-          <p className="mb-8 text-lg text-muted-foreground text-pretty">
-            Discover the wonders of space through NASA's incredible collection
-            of images and videos.
+    <main className="container mx-auto px-4 py-24 pb-16">
+      <div className="mx-auto max-w-2xl space-y-6">
+        {/* What is Astralis */}
+        <div className="rounded-md border border-white/10 bg-black/20 backdrop-blur-lg p-8">
+          <div className="flex items-start gap-4 mb-4">
+            <h2 className="font-bold text-xl text-white">
+              What and why Astralis?
+            </h2>
+          </div>
+          <p className="text-white/80 leading-relaxed text-base mb-4">
+            I built Astralis to create an easier way to explore the universe by
+            transforming NASA's media library into an immersive visual
+            experience.
+          </p>
+          <p className="text-white/80 leading-relaxed text-base ">
+            Astralis is a window into the cosmos, bringing together NASA's vast
+            collection of space imagery into a seamless, beautiful experience.
+            From stunning astronomy pictures to real-time Earth observations
+            captured by telescopes roaming the vastness of space, rovers on
+            distant planets or satellites in orbit, Astralis makes exploring the
+            universe as simple as a swipe.
+          </p>
+        </div>
+
+        {/* Credits */}
+
+        <div className="rounded-md border border-white/10 bg-black/20 backdrop-blur-lg p-8">
+          <div className="flex items-start gap-4 mb-4">
+            <h2 className="font-bold text-xl text-white">
+              Credits & Acknowledgments
+            </h2>
+          </div>
+          <p className="text-white/80 leading-relaxed text-base mb-6">
+            This project would not be possible without the incredible work of
+            NASA and their commitment to making science discoveries accessible
+            to everyone. Special thanks to the Open Innovation team for
+            providing public APIs to these resources.
           </p>
 
-          <div className="space-y-6">
-            <Card className="border-border/50 bg-card p-6">
-              <h2 className="mb-4 font-bold text-2xl">Our Mission</h2>
-              <p className="text-foreground/90 leading-relaxed">
-                NASA Explorer brings together multiple NASA APIs to create a
-                unified, beautiful interface for exploring space imagery. From
-                daily astronomy pictures to real-time Earth observations from
-                satellites, we make NASA's vast media collection accessible and
-                enjoyable for everyone.
-              </p>
-            </Card>
+          {/* <div className="flex justify-center">
+            <Image
+              src="/nasa-logo.png"
+              alt="NASA Logo"
+              height={200}
+              width={200}
+              className="block"
+            />
+          </div> */}
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <Card className="border-border/50 bg-card p-6">
-                <div className="mb-3 flex items-center gap-2">
-                  <Rocket className="h-6 w-6 text-primary" />
-                  <h3 className="font-semibold text-lg">Home Gallery</h3>
-                </div>
-                <p className="text-sm text-foreground/80 leading-relaxed">
-                  Browse through thousands of space images with infinite scroll
-                  and responsive masonry layout.
-                </p>
-              </Card>
+          <p className="text-white/80 leading-relaxed text-base mb-6">
+            Powered by NASA's Open Innovation APIs, including the Astronomy
+            Picture of the Day (APOD), EPIC (Earth Polychromatic Imaging
+            Camera), and the NASA Image and Video Library. You can find more
+            information about these APIs and their capabilities on the{" "}
+            <Link
+              href="https://api.nasa.gov/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-white font-semibold underline decoration-white/40 underline-offset-4 hover:decoration-white transition-colors"
+            >
+              NASA APIs website
+              {/* <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                />
+              </svg> */}
+            </Link>
+            .
+          </p>
 
-              <Card className="border-border/50 bg-card p-6">
-                <div className="mb-3 flex items-center gap-2">
-                  <Sparkles className="h-6 w-6 text-primary" />
-                  <h3 className="font-semibold text-lg">Cosmic Spotlight</h3>
-                </div>
-                <p className="text-sm text-foreground/80 leading-relaxed">
-                  Discover random astronomy pictures of the day from NASA's APOD
-                  collection.
-                </p>
-              </Card>
+          <p className="text-white/80 leading-relaxed text-base">
+            All space imagery and data are courtesy of NASA and remain in the
+            public domain. Individual image credits can be found on each image's
+            detail page.
+          </p>
+        </div>
 
-              <Card className="border-border/50 bg-card p-6">
-                <div className="mb-3 flex items-center gap-2">
-                  <Globe className="h-6 w-6 text-primary" />
-                  <h3 className="font-semibold text-lg">Terra</h3>
-                </div>
-                <p className="text-sm text-foreground/80 leading-relaxed">
-                  View Earth from space through NASA's DSCOVR satellite at the
-                  L1 Lagrange point.
-                </p>
-              </Card>
+        {/* Contact */}
+        <div className="rounded-md border border-white/10 bg-black/20 backdrop-blur-lg p-8">
+          <div className="flex items-start gap-4 mb-4">
+            <h2 className="font-bold text-xl text-white">Get in Touch</h2>
+          </div>
+          <p className="text-white/80 leading-relaxed text-base mb-6">
+            If you have any suggestions, questions, or just want to share your
+            favorite space image, I'd love to hear from you!
+          </p>
 
-              <Card className="border-border/50 bg-card p-6">
-                <div className="mb-3 flex items-center gap-2">
-                  <ImageIcon className="h-6 w-6 text-primary" />
-                  <h3 className="font-semibold text-lg">Shareable Pages</h3>
-                </div>
-                <p className="text-sm text-foreground/80 leading-relaxed">
-                  Every image has its own page with Open Graph tags for
-                  beautiful social media sharing.
-                </p>
-              </Card>
-            </div>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <a
+              href="mailto:younes.khoubaz@gmail.com"
+              className="flex items-center gap-3 px-6 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-colors border border-white/20"
+            >
+              <Mail className="h-5 w-5 text-white" />
+              <span className="text-white font-medium">Email Me</span>
+            </a>
 
-            <Card className="border-border/50 bg-card p-6">
-              <h2 className="mb-4 font-bold text-2xl">Data Sources</h2>
-              <div className="space-y-3 text-sm text-foreground/80">
-                <p>
-                  <span className="font-semibold">
-                    APOD (Astronomy Picture of the Day):
-                  </span>{" "}
-                  Daily featured images and videos showcasing the cosmos.
-                </p>
-                <p>
-                  <span className="font-semibold">
-                    NASA Image and Video Library:
-                  </span>{" "}
-                  Searchable collection of NASA's media assets.
-                </p>
-                <p>
-                  <span className="font-semibold">
-                    EPIC (Earth Polychromatic Imaging Camera):
-                  </span>{" "}
-                  Full-disc Earth imagery from the DSCOVR satellite.
-                </p>
-              </div>
-            </Card>
-
-            <div className="flex justify-center pt-4">
-              <NASAAttribution />
-            </div>
+            <a
+              href="https://x.com/VirtuoMind"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 px-6 py-3 rounded-lg bg-white/10 hover:bg-white/20 transition-colors border border-white/20"
+            >
+              <FaXTwitter className="h-5 w-5 text-white" />
+              <span className="text-white font-medium">X (Twitter)</span>
+            </a>
           </div>
         </div>
-      </main>
-    </>
+      </div>
+    </main>
   );
 }
