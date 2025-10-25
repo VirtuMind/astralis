@@ -22,6 +22,9 @@ const libraryKeywords: string[] = [
   "space station",
   "solar system",
   "moon",
+  "rocket",
+  "space shuttle",
+  "sun",
   "eclipse",
   "meteor",
   "constellation",
@@ -51,6 +54,16 @@ const libraryKeywords: string[] = [
   "Andromeda",
   "Milky Way",
   "Aurora",
+  "Big Bang",
+  "Black Hole",
+  "Nebulae",
+  "Supernovae",
+  "Exoplanets",
+  "Pulsars",
+  "Quasars",
+  "Dark Energy",
+  "Cosmic Microwave Background",
+  "Gravitational Waves",
 ];
 
 export async function fetchLibraryImages(
@@ -65,7 +78,14 @@ export async function fetchLibraryImages(
   if (nasaId) {
     params.set("nasa_id", nasaId);
   } else {
-    params.set("keywords", libraryKeywords.join(","));
+    // --- Randomize keyword selection ---
+    const shuffled = libraryKeywords.sort(() => Math.random() - 0.5);
+    const randomKeywords = shuffled.slice(0, 3 + Math.floor(Math.random() * 4)); // pick 3–6 keywords
+    params.set("keywords", randomKeywords.join(","));
+
+    // --- Randomize page ---
+    const randomPage = 1 + Math.floor(Math.random() * 5); // random page 1–5
+    params.set("page", randomPage.toString());
   }
 
   const response = await fetch(
