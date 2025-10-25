@@ -60,7 +60,7 @@ export interface NormalizedLibraryItem {
   keywords?: string[];
 }
 
-export interface EPICImage {
+export interface EPICItem {
   identifier: string;
   caption: string;
   image: string;
@@ -118,4 +118,11 @@ export interface EPICImage {
       q3: number;
     };
   };
+}
+
+export interface NormalizedEPICItem {
+  id: string;
+  caption: string;
+  imageUrl: string;
+  timestamp: string;
 }
