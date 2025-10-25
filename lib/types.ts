@@ -12,6 +12,7 @@ export interface APODItem {
   thumbnail_url?: string;
 }
 
+// Defines the structure of items inside the search response
 export interface LibrarySearchItem {
   href: string;
   data: Array<{
@@ -47,6 +48,16 @@ export interface LibrarySearchResponse {
       href: string;
     }>;
   };
+}
+
+export interface NormalizedLibraryItem {
+  nasa_id: string;
+  title: string;
+  description: string;
+  thumbnailUrl: string;
+  hdImageUrl?: string;
+  date: string;
+  keywords?: string[];
 }
 
 export interface EPICImage {
@@ -107,14 +118,4 @@ export interface EPICImage {
       q3: number;
     };
   };
-}
-
-export interface NormalizedLibraryItem {
-  nasa_id: string;
-  title: string;
-  description: string;
-  thumbnailUrl: string;
-  hdImageUrl?: string;
-  date: string;
-  keywords?: string[];
 }

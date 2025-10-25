@@ -2,11 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { AmbientSoundToggle } from "./ambient-sound-toggle";
-import { Button } from "./ui/button";
-// import GlassSurface from "./GlassSurface";
+
 import dynamic from "next/dynamic";
 
 const GlassSurface = dynamic(() => import("./GlassSurface"), {
@@ -21,13 +19,12 @@ const navigation = [
 ];
 
 export function Header() {
-  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <>
       <header className="pointer-events-none fixed top-0 left-0 right-0 z-50 px-4 py-6 md:px-8">
-        <div className="flex items-center justify-between">
+        <div className="relative flex items-center justify-between">
           {/* Logo - Left */}
           <Link
             href="/"
@@ -36,36 +33,37 @@ export function Header() {
             Astralis
           </Link>
 
-          {/* Toast Navigation - Center (Desktop) */}
-          <GlassSurface
-            width={400}
-            borderRadius={50}
-            height={50}
-            opacity={0.7}
-            backgroundOpacity={0.25}
-            saturation={0.3}
-            className="pointer-events-auto hidden md:flex items-center gap-1"
-          >
-            {navigation.map((item, index) => {
-              const isActive = pathname === item.href;
+          {/* Toast Navigation */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block">
+            <GlassSurface
+              width={400}
+              borderRadius={50}
+              height={50}
+              opacity={0.7}
+              backgroundOpacity={0.25}
+              saturation={0.3}
+              className="pointer-events-auto flex items-center gap-1"
+            >
+              {navigation.map((item, index) => {
+                return (
+                  <div key={item.href} className="flex items-center">
+                    <Link
+                      href={item.href}
+                      className={
+                        "flex min-h-[44px] items-center px-4 text-sm font-medium transition-colors text-white hover:text-white/80"
+                      }
+                    >
+                      {item.name}
+                    </Link>
+                    {index < navigation.length - 1 && (
+                      <div className="h-4 w-px bg-white/20" />
+                    )}
+                  </div>
+                );
+              })}
+            </GlassSurface>
+          </div>
 
-              return (
-                <div key={item.href} className="flex items-center">
-                  <Link
-                    href={item.href}
-                    className={
-                      "flex min-h-[44px] items-center px-4 text-sm font-medium transition-colors text-white hover:text-white/80"
-                    }
-                  >
-                    {item.name}
-                  </Link>
-                  {index < navigation.length - 1 && (
-                    <div className="h-4 w-px bg-white/20" />
-                  )}
-                </div>
-              );
-            })}
-          </GlassSurface>
           {/* Sound Toggle - Right */}
           <div className="pointer-events-auto flex justify-center items-center gap-2">
             <AmbientSoundToggle />
@@ -98,8 +96,6 @@ export function Header() {
           >
             <nav className="flex w-full flex-col items-stretch py-1">
               {navigation.map((item, index) => {
-                const isActive = pathname === item.href;
-
                 return (
                   <div key={item.href} className="w-full">
                     <Link

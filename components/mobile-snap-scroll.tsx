@@ -81,7 +81,6 @@ export function MobileSnapScroll({
       className="relative overflow-hidden"
       style={{ height: "calc(var(--vh, 1vh) * 100)" }}
     >
-      {/* Fixed Action Buttons - Mobile Only */}
       <div className="fixed right-6 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-6 md:hidden">
         {/* View Details Button */}
         <Link
