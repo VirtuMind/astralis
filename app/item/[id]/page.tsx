@@ -4,24 +4,11 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { ShareButtons } from "@/components/share-buttons";
 import { Calendar } from "lucide-react";
+import { LibrarySearchResponse, NormalizedLibraryItem } from "@/lib/types";
 import {
   fetchLibraryImages,
   normalizeLibraryItem,
 } from "@/lib/adapters/library";
-import { NormalizedLibraryItem } from "@/lib/types";
-
-async function getItemData(
-  nasa_id: string
-): Promise<NormalizedLibraryItem | null> {
-  const response = await fetchLibraryImages(1, nasa_id);
-
-  if (!response.collection.items || response.collection.items.length === 0) {
-    return null;
-  }
-
-  const item = response.collection.items[0];
-  return normalizeLibraryItem(item);
-}
 
 export default async function ItemDetailPage({
   params,
@@ -29,7 +16,9 @@ export default async function ItemDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const item = await getItemData(id);
+
+  const data: LibrarySearchResponse | null = await fetchLibraryImages(1, id);
+  const item = normalizeLibraryItem(data.collection.items[0]);
 
   if (!item) {
     notFound();
