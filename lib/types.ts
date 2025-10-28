@@ -125,4 +125,16 @@ export interface NormalizedEPICItem {
   caption: string;
   imageUrl: string;
   timestamp: string;
+  earthCentroidCoordinates: {
+    lat: string;
+    lon: string;
+  };
+  distances: {
+    satelliteToEarth: number;
+    satelliteToSun: number;
+    satelliteToMoon: number;
+    earthToSun: number;
+    earthToMoon: number;
+    sunToMoon: number;
+  };
 }
