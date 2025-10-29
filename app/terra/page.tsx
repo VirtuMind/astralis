@@ -5,36 +5,11 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import useEmblaCarousel from "embla-carousel-react";
 import Fade from "embla-carousel-fade";
-import {
-  Globe,
-  MapPin,
-  ChevronLeft,
-  ChevronRight,
-  Sun,
-  Satellite,
-  Shuffle,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, Shuffle } from "lucide-react";
 import { useEPIC } from "@/hooks/use-epic";
 import { Label } from "@/components/ui/label";
 import TerraDatePicker from "@/components/terra-date-picker";
-
-function formatDate(date: Date | undefined) {
-  if (!date) {
-    return "";
-  }
-  return date.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-}
-
-function isValidDate(date: Date | undefined) {
-  if (!date) {
-    return false;
-  }
-  return !isNaN(date.getTime());
-}
+import CelestialDistanceMap from "@/components/celestial-distance-map";
 
 export default function TerraPage() {
   // Initialize with undefined to fetch latest data, then set to actual data date
@@ -159,7 +134,7 @@ export default function TerraPage() {
             <div className="mx-auto max-w-7xl">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8">
                 {/* Right Side: Carousel - Shows first on mobile */}
-                <div className="lg:col-span-8 flex flex-col gap-3 order-1 lg:order-2">
+                <div className="lg:col-span-5 flex flex-col gap-3 order-1 lg:order-2">
                   {/* Current Viewing Info */}
                   <p className="text-white/90 text-sm text-center">
                     You are seeing how earth looked like on{" "}
@@ -243,9 +218,9 @@ export default function TerraPage() {
                   )}
                 </div>
 
-                {/* Left Side: Date Controls + Metadata Panel - Shows second on mobile */}
+                {/* Left Side: Date Controls + Celestial Map - Shows second on mobile */}
                 {item && (
-                  <div className="lg:col-span-4 flex flex-col gap-3 order-2 lg:order-1">
+                  <div className="lg:col-span-7 flex flex-col gap-3 order-2 lg:order-1">
                     {/* Date Controls */}
                     <div className="flex-shrink-0 space-y-3">
                       <Label htmlFor="date" className="px-1  text-sm">
@@ -267,122 +242,8 @@ export default function TerraPage() {
                       </div>
                     </div>
 
-                    {/* Metadata Panel */}
-                    <div className="rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md p-4">
-                      <div className="space-y-4">
-                        {/* Earth Coordinates */}
-                        <div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className="rounded-full bg-blue-500/20 p-1.5">
-                              <MapPin className="h-3.5 w-3.5 text-blue-400" />
-                            </div>
-                            <h3 className="font-semibold text-xs text-white">
-                              Earth Center Point
-                            </h3>
-                          </div>
-                          <div className="space-y-1 pl-8">
-                            <p className="font-mono text-xs text-white/90">
-                              Lat: {item.earthCentroidCoordinates.lat}
-                            </p>
-                            <p className="font-mono text-xs text-white/90">
-                              Lon: {item.earthCentroidCoordinates.lon}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Satellite Distances */}
-                        <div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className="rounded-full bg-purple-500/20 p-1.5">
-                              <Satellite className="h-3.5 w-3.5 text-purple-400" />
-                            </div>
-                            <h3 className="font-semibold text-xs text-white">
-                              DSCOVR Satellite
-                            </h3>
-                          </div>
-                          <div className="space-y-1.5 pl-8">
-                            <div>
-                              <p className="text-white/60 text-[10px]">
-                                To Earth
-                              </p>
-                              <p className="font-mono text-xs text-white">
-                                {formatNumber(item.distances.satelliteToEarth)}{" "}
-                                km
-                              </p>
-                            </div>
-                            <div>
-                              <p className="text-white/60 text-[10px]">
-                                To Sun
-                              </p>
-                              <p className="font-mono text-xs text-white">
-                                {formatNumber(item.distances.satelliteToSun)} km
-                              </p>
-                            </div>
-                            <div>
-                              <p className="text-white/60 text-[10px]">
-                                To Moon
-                              </p>
-                              <p className="font-mono text-xs text-white">
-                                {formatNumber(item.distances.satelliteToMoon)}{" "}
-                                km
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Earth Distances */}
-                        <div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className="rounded-full bg-green-500/20 p-1.5">
-                              <Globe className="h-3.5 w-3.5 text-green-400" />
-                            </div>
-                            <h3 className="font-semibold text-xs text-white">
-                              Earth
-                            </h3>
-                          </div>
-                          <div className="space-y-1.5 pl-8">
-                            <div>
-                              <p className="text-white/60 text-[10px]">
-                                To Sun
-                              </p>
-                              <p className="font-mono text-xs text-white">
-                                {formatNumber(item.distances.earthToSun)} km
-                              </p>
-                            </div>
-                            <div>
-                              <p className="text-white/60 text-[10px]">
-                                To Moon
-                              </p>
-                              <p className="font-mono text-xs text-white">
-                                {formatNumber(item.distances.earthToMoon)} km
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Sun-Moon Distance */}
-                        <div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className="rounded-full bg-yellow-500/20 p-1.5">
-                              <Sun className="h-3.5 w-3.5 text-yellow-400" />
-                            </div>
-                            <h3 className="font-semibold text-xs text-white">
-                              Sun to Moon
-                            </h3>
-                          </div>
-                          <div className="space-y-1.5 pl-8">
-                            <div>
-                              <p className="text-white/60 text-[10px]">
-                                Distance
-                              </p>
-                              <p className="font-mono text-xs text-white">
-                                {formatNumber(item.distances.sunToMoon)} km
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    {/* Celestial Distance Visualization */}
+                    <CelestialDistanceMap item={item} />
                   </div>
                 )}
               </div>
