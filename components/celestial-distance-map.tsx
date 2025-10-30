@@ -17,10 +17,6 @@ import "@xyflow/react/dist/style.css";
 import Image from "next/image";
 import { NormalizedEPICItem } from "@/lib/types";
 
-interface CelestialDistanceMapProps {
-  item: NormalizedEPICItem;
-}
-
 type HandleConfig = {
   id: string;
   type: "source" | "target";
@@ -66,17 +62,19 @@ const nodeTypes = {
 };
 
 function formatDistance(km: number): string {
-  return `${km.toLocaleString()} KM`;
+  return `${km.toLocaleString("en-GB", { maximumFractionDigits: 0 })} KM`;
 }
 
 export default function CelestialDistanceMap({
   item,
-}: CelestialDistanceMapProps) {
+}: {
+  item: NormalizedEPICItem;
+}) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
   useEffect(() => {
-    // Define node positions in a visually appealing layout
+    // Define node positions (images of celestial bodies)
     const initialNodes: Node[] = [
       {
         id: "satellite",
@@ -136,7 +134,7 @@ export default function CelestialDistanceMap({
       },
     ];
 
-    // Define edges (connections) with distances
+    // Define edges (connections) with distances as labels
     const initialEdges: Edge[] = [
       {
         id: "sun-earth",
@@ -287,7 +285,7 @@ export default function CelestialDistanceMap({
         <Controls className="!bg-black !rounded-lg [&>button]:!bg-black [&>button]:!border-slate-500/60 [&>button:hover]:!bg-slate-800" />
         <Panel
           position="top-center"
-          className="bg-black/50 backdrop-blur-md rounded-lg px-4 py-2"
+          className="bg-black/50 backdrop-blur-md rounded-lg px-4 py-2 w-40 md:w-fit"
         >
           <p className="text-white text-center text-xs font-medium">
             Spacial distance map at this moment

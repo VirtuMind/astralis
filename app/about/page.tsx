@@ -19,13 +19,15 @@ export default function AboutPage() {
             transforming NASA's media library into an immersive visual
             experience.
           </p>
-          <p className="text-white/80 leading-relaxed text-base ">
+          <p className="text-white/80 leading-relaxed text-base mb-4">
             Astralis is a window into the cosmos, bringing together NASA's vast
             collection of space imagery into a seamless, beautiful experience.
             From stunning astronomy pictures to real-time Earth observations
             captured by telescopes roaming the vastness of space, rovers on
-            distant planets or satellites in orbit, Astralis makes exploring the
-            universe as simple as a swipe.
+            distant planets or satellites in orbit.
+          </p>
+          <p className="text-white/80 leading-relaxed text-base">
+            Astralis makes exploring the universe as simple as a swipe.
           </p>
         </div>
 
@@ -56,9 +58,19 @@ export default function AboutPage() {
 
           <p className="text-white/80 leading-relaxed text-base mb-6">
             Powered by NASA's Open Innovation APIs, including the Astronomy
-            Picture of the Day (APOD), EPIC (Earth Polychromatic Imaging
-            Camera), and the NASA Image and Video Library. You can find more
-            information about these APIs and their capabilities on the{" "}
+            Picture of the Day (APOD), Earth Polychromatic Imaging Camera
+            (EPIC), and the NASA Image and Video Library.
+          </p>
+
+          <p className="text-white/80 leading-relaxed text-base mb-6">
+            All space imagery and data are courtesy of NASA and remain in the
+            public domain. Individual image credits can be found on each image's
+            detail page.
+          </p>
+
+          <p className="text-white/80 leading-relaxed text-base">
+            You can find more information about these APIs and their
+            capabilities on the{" "}
             <Link
               href="https://api.nasa.gov/"
               target="_blank"
@@ -66,7 +78,7 @@ export default function AboutPage() {
               className="inline-flex items-center gap-1 text-white font-semibold underline decoration-white/40 underline-offset-4 hover:decoration-white transition-colors"
             >
               NASA APIs website
-              {/* <svg
+              <svg
                 className="h-4 w-4"
                 fill="none"
                 stroke="currentColor"
@@ -78,15 +90,8 @@ export default function AboutPage() {
                   strokeWidth={2}
                   d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                 />
-              </svg> */}
+              </svg>
             </Link>
-            .
-          </p>
-
-          <p className="text-white/80 leading-relaxed text-base">
-            All space imagery and data are courtesy of NASA and remain in the
-            public domain. Individual image credits can be found on each image's
-            detail page.
           </p>
         </div>
 
