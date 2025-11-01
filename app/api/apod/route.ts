@@ -7,9 +7,10 @@ const NASA_API_KEY = process.env.NASA_API_KEY || "DEMO_KEY";
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   let date = searchParams.get("date");
+
   if (!date) {
     const start = new Date(1995, 5, 16);
-    const end = new Date(2025, 9, 1);
+    const end = new Date();
     const randomTime =
       start.getTime() + Math.random() * (end.getTime() - start.getTime());
     const randomDate = new Date(randomTime);

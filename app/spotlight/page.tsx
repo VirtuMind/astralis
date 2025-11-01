@@ -1,23 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { useAPOD } from "@/hooks/use-apod";
-import { Calendar } from "lucide-react";
-import { Label } from "@/components/ui/label";
+import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
+import { Label } from "@/components/ui/label";
 import CustomDatePicker from "@/components/custom-date-picker";
-import { PiShootingStarBold } from "react-icons/pi";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const PiShootingStarBold = dynamic(
+  () => import("react-icons/pi").then((mod) => mod.PiShootingStarBold),
+  { ssr: false }
+);
 
 export default function SpotlightPage() {
-  const [selectedDate, setSelectedDate] = useState<string | undefined>(
-    undefined
-  );
+  const [selectedDate, setSelectedDate] = useState<string | undefined>();
   const { data, isLoading, error } = useAPOD(selectedDate);
 
   const handleRandomDate = () => {
-    // Generate random date between 1995-06-16 (APOD start) and today
+    // Generate a new random date and set it explicitly
     const start = new Date(1995, 5, 16);
     const end = new Date();
     const randomTime =
