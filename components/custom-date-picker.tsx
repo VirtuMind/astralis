@@ -1,22 +1,31 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Button } from "./ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "./ui/calendar";
+import { Calendar } from "@/components/ui/calendar";
 import { useEffect, useState } from "react";
-import { NormalizedEPICItem } from "@/lib/types";
 import { format, parse, isValid } from "date-fns";
 
 const DISPLAY_FORMAT = "dd/MM/yyyy";
 const API_FORMAT = "yyyy-MM-dd";
 
-const TerraDatePicker = ({
-  data,
+const CustomDatePicker = ({
+  startMonth,
+  startYear,
+  startDay,
+  timestamp,
   setSelectedDate,
 }: {
-  data: NormalizedEPICItem[] | undefined;
+  timestamp: string | undefined; // like this -> "2015-06-13 00:12:17"
   setSelectedDate: (date: string) => void;
+  startMonth: number;
+  startYear: number;
+  startDay: number;
 }) => {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>();
@@ -25,8 +34,7 @@ const TerraDatePicker = ({
 
   // Initialize date from API data
   useEffect(() => {
-    if (data && data.length > 0) {
-      const timestamp = data[0].timestamp; // like this -> "2015-06-13 00:12:17"
+    if (timestamp) {
       const parsedDate = new Date(timestamp.replace(" ", "T"));
       if (isValid(parsedDate)) {
         setDate(parsedDate);
@@ -34,7 +42,7 @@ const TerraDatePicker = ({
         setValue(format(parsedDate, DISPLAY_FORMAT));
       }
     }
-  }, [data]);
+  }, [timestamp]);
 
   // Handle manual date input
   const handleDateInputChange = (inputValue: string) => {
@@ -101,7 +109,8 @@ const TerraDatePicker = ({
             onMonthChange={setMonth}
             onSelect={handleDateSelect}
             disabled={(date) =>
-              date > new Date() || date < new Date(2015, 6, 13)
+              date > new Date() ||
+              date < new Date(startYear, startMonth - 1, startDay)
             }
             classNames={{
               day_button:
@@ -114,4 +123,4 @@ const TerraDatePicker = ({
   );
 };
 
-export default TerraDatePicker;
+export default CustomDatePicker;
