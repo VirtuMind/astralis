@@ -9,7 +9,12 @@ export function useEPIC(date?: string) {
   const params = date ? `?date=${date}` : "";
   const { data, error, isLoading } = useSWR<NormalizedEPICItem[]>(
     `/api/epic${params}`,
-    fetcher
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateIfStale: false,
+      shouldRetryOnError: false,
+    }
   );
 
   return {
