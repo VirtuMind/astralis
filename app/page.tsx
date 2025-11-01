@@ -6,6 +6,7 @@ import { MobileSnapScroll } from "@/components/mobile-snap-scroll";
 import { useLibrarySearch } from "@/hooks/use-library";
 import { useMobile } from "@/hooks/use-mobile";
 import { NormalizedLibraryItem } from "@/lib/types";
+import Image from "next/image";
 
 const ITEMS_PER_PAGE = Number.parseInt(process.env.NEXT_PUBLIC_PAGE_SIZE!);
 
@@ -41,15 +42,25 @@ export default function HomePage() {
     }
   }, [isLoading, hasMore, page]);
 
-  if (error) {
+  if (error || (!isLoading && allItems.length === 0)) {
     return (
       <>
         <main className="flex min-h-screen items-center justify-center">
           <div className="text-center">
-            <h2 className="mb-2 font-bold text-2xl text-foreground">
-              Failed to load media
+            <Image
+              src="/space-cat.png"
+              alt="Space Cat"
+              width={200}
+              height={200}
+              className="mx-auto"
+            />
+
+            <h2 className="font-bold text-xl text-white">
+              This service is currently unavailable
             </h2>
-            <p className="text-muted-foreground">Please try again later</p>
+            <p className="text-white/70">
+              perhaps the universe is taking a break. Please try again later
+            </p>
           </div>
         </main>
       </>
