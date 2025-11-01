@@ -1,11 +1,18 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import Image from "next/image";
 
 export default function NotFound() {
   return (
-    <main className="container flex min-h-[600px] items-center justify-center py-8">
+    <main className="flex min-h-[600px] w-full items-center justify-center py-8 px-6">
       <div className="text-center">
-        <h1 className="mb-4 font-bold text-5xl text-primary">404</h1>
+        <Image
+          src="/galactic-center.png"
+          alt="Galactic Center"
+          width={200}
+          height={200}
+          className="mx-auto"
+        />
 
         <h2 className="mb-4 font-bold text-xl">Nothing found here</h2>
         <p className="mb-8 text-foreground">
