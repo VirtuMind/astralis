@@ -51,7 +51,7 @@ export default async function ItemDetailPage({
 
       {/* Scrollable Content - Right Half */}
       <div className="w-full md:w-1/2 md:ml-auto">
-        <div className="min-h-screen px-6 py-8 md:px-12 md:py-12 lg:px-16">
+        <div className="min-h-screen px-6 py-8 md:px-12 md:px-10">
           <div className="mx-auto max-w-2xl space-y-6">
             {/* Title */}
             <h1 className="font-bold text-4xl md:text-5xl mb-2 text-white leading-tight">
@@ -71,7 +71,7 @@ export default async function ItemDetailPage({
             </div>
 
             {/* Description */}
-            <p className="leading-relaxed text-base md:text-lg break-words overflow-wrap-anywhere">
+            <p className="leading-relaxed text-base md:text-lg break-words overflow-wrap-anywhere text-white/90">
               {item.description}
             </p>
 
