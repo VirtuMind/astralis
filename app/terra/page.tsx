@@ -8,7 +8,7 @@ import Fade from "embla-carousel-fade";
 import { ChevronLeft, ChevronRight, Shuffle } from "lucide-react";
 import { useEPIC } from "@/hooks/use-epic";
 import { Label } from "@/components/ui/label";
-import TerraDatePicker from "@/components/terra-date-picker";
+import CustomDatePicker from "@/components/custom-date-picker";
 import CelestialDistanceMap from "@/components/celestial-distance-map";
 
 export default function TerraPage() {
@@ -50,25 +50,14 @@ export default function TerraPage() {
     };
   }, [emblaApi]);
 
-  const formatNumber = (num: number) => {
-    return new Intl.NumberFormat("en-US", {
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
-
   const handleRandomDate = () => {
     // Generate random date between 2015-06-13 (EPIC start) and today
-    const start = new Date("2015-06-13");
-    const end = new Date();
-    const randomTime =
-      start.getTime() + Math.random() * (end.getTime() - start.getTime());
+    const start = new Date(2015, 5, 13).getTime();
+    const end = new Date().getTime();
+    const randomTime = start + Math.random() * (end - start);
     const randomDate = new Date(randomTime);
 
-    // Format date in local timezone to avoid UTC conversion issues
-    const year = randomDate.getFullYear();
-    const month = String(randomDate.getMonth() + 1).padStart(2, "0");
-    const day = String(randomDate.getDate()).padStart(2, "0");
-    setSelectedDate(`${year}-${month}-${day}`);
+    setSelectedDate(randomDate.toISOString().split("T")[0]);
   };
 
   const item = data?.[currentIndex];
@@ -85,9 +74,9 @@ export default function TerraPage() {
         </div>
 
         {isLoading ? (
-          <div className="flex flex-1 items-center justify-center">
+          <div className="flex flex-1 items-center justify-center mt-20">
             <div className="text-center space-y-4">
-              <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-white/20 border-t-white" />
+              <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-white/40 border-t-white" />
               <p className="text-white/60 text-lg">Loading Earth imagery...</p>
             </div>
           </div>
@@ -104,16 +93,19 @@ export default function TerraPage() {
               <h2 className="font-bold text-xl text-white">
                 Our beloved planet was feeling shy during that day.
               </h2>
-              <p className="text-white/60">
+              <p className="text-white/70">
                 Try selecting a different date or click Random Date
               </p>
               <div className="lg:col-span-4 flex flex-col gap-3 mt-8">
                 {/* Date Controls */}
                 <div className="flex-shrink-0 space-y-3">
                   <div className="flex flex-row gap-3 w-full">
-                    <TerraDatePicker
-                      data={data}
+                    <CustomDatePicker
+                      timestamp={undefined}
                       setSelectedDate={setSelectedDate}
+                      startDay={13}
+                      startMonth={6}
+                      startYear={2015}
                     />
                     <Button
                       onClick={handleRandomDate}
@@ -227,9 +219,12 @@ export default function TerraPage() {
                         Select Date
                       </Label>
                       <div className="flex flex-row gap-3 w-full">
-                        <TerraDatePicker
-                          data={data}
+                        <CustomDatePicker
+                          timestamp={data[0].timestamp}
                           setSelectedDate={setSelectedDate}
+                          startDay={13}
+                          startMonth={6}
+                          startYear={2015}
                         />
                         <Button
                           onClick={handleRandomDate}
