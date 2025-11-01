@@ -1,18 +1,32 @@
 "use client";
 
 import useSWR from "swr";
-import { NormalizedMediaItem } from "@/lib/types";
+import { NormalizedAPODItem } from "@/lib/types";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = async (url: string) => {
+  const res = await fetch(url);
+  const data = await res.json();
 
-export function useAPOD(count?: number, date?: string) {
-  const params = new URLSearchParams();
-  if (count) params.append("count", count.toString());
-  if (date) params.append("date", date);
+  if (data.error) {
+    const error = new Error("APOD_ERROR");
+    (error as any).status = res.status;
+    throw error;
+  }
 
-  const { data, error, isLoading } = useSWR<NormalizedMediaItem[]>(
-    `/api/apod?${params.toString()}`,
-    fetcher
+  return data;
+};
+
+export function useAPOD(date?: string) {
+  const params = date ? `?date=${date}` : "";
+  const { data, error, isLoading } = useSWR<NormalizedAPODItem>(
+    `/api/apod${params}`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      revalidateIfStale: false,
+      shouldRetryOnError: false,
+    }
   );
 
   return {

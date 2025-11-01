@@ -6,10 +6,19 @@ const NASA_API_KEY = process.env.NASA_API_KEY || "DEMO_KEY";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const count = searchParams.get("count");
-  const date = searchParams.get("date");
+  let date = searchParams.get("date");
+  if (!date) {
+    const start = new Date(1995, 5, 16);
+    const end = new Date(2025, 9, 1);
+    const randomTime =
+      start.getTime() + Math.random() * (end.getTime() - start.getTime());
+    const randomDate = new Date(randomTime);
+    date = randomDate.toISOString().split("T")[0];
+  }
 
-  const cacheKey = `apod-${count || "single"}-${date || "today"}`;
+  console.log("Fetching APOD for date:", date);
+
+  const cacheKey = `apod-${date}`;
   const cached = cache.get(cacheKey);
 
   if (cached) {
@@ -17,23 +26,17 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const items = await fetchAPOD(
-      NASA_API_KEY,
-      count ? Number.parseInt(count) : undefined,
-      date || undefined
-    );
-
-    const normalized = items.map(normalizeAPOD);
+    const item = await fetchAPOD(NASA_API_KEY, date || "");
+    const normalized = normalizeAPOD(item);
 
     // Cache for 1 hour
     cache.set(cacheKey, normalized, 60);
-
     return NextResponse.json(normalized);
   } catch (error) {
     console.error("APOD API error:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch APOD data" },
-      { status: 500 }
-    );
+
+    const status = parseInt((error as Error).message) || 500;
+
+    return NextResponse.json({ error: true }, { status });
   }
 }

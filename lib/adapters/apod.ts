@@ -1,37 +1,28 @@
-import type { APODItem, NormalizedMediaItem } from "@/lib/types";
+import type { APODItem, NormalizedAPODItem } from "@/lib/types";
 
 export async function fetchAPOD(
   apiKey: string,
-  count?: number,
-  date?: string
-): Promise<APODItem[]> {
-  const params = new URLSearchParams({ api_key: apiKey });
-  if (count) params.append("count", count.toString());
-  if (date) params.append("date", date);
-
+  date: string
+): Promise<APODItem> {
   const response = await fetch(
-    `https://api.nasa.gov/planetary/apod?${params.toString()}`
+    `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&date=${date}`,
+    { signal: AbortSignal.timeout(10000) }
   );
 
   if (!response.ok) {
-    throw new Error(`APOD API error: ${response.statusText}`);
+    throw new Error(response.status.toString());
   }
 
-  const data = await response.json();
-  return Array.isArray(data) ? data : [data];
+  return await response.json();
 }
 
-export function normalizeAPOD(item: APODItem): NormalizedMediaItem {
+export function normalizeAPOD(item: APODItem): NormalizedAPODItem {
   return {
-    id: `apod-${item.date}`,
+    date: item.date,
     title: item.title,
     description: item.explanation,
-    imageUrl: item.media_type === "image" ? item.url : item.thumbnail_url || "",
-    hdImageUrl: item.hdurl,
     mediaType: item.media_type,
-    date: item.date,
-    source: "apod",
+    url: item.media_type === "image" ? item.hdurl || item.url : item.url,
     copyright: item.copyright,
-    videoUrl: item.media_type === "video" ? item.url : undefined,
   };
 }

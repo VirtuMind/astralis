@@ -12,6 +12,15 @@ export interface APODItem {
   thumbnail_url?: string;
 }
 
+export interface NormalizedAPODItem {
+  date: string;
+  title: string;
+  description: string;
+  mediaType: "image" | "video";
+  url: string;
+  copyright?: string;
+}
+
 // Defines the structure of items inside the search response
 export interface LibrarySearchItem {
   href: string;
