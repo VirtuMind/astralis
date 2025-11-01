@@ -1,176 +1,205 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { SiteHeader } from "@/components/header";
-import { NASAAttribution } from "@/components/nasa-attribution";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { useAPOD } from "@/hooks/use-apod";
-import { Sparkles, Calendar, ExternalLink, RefreshCw } from "lucide-react";
-import { VideoModal } from "@/components/video-modal";
+import { Calendar } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import CustomDatePicker from "@/components/custom-date-picker";
+import { PiShootingStarBold } from "react-icons/pi";
 
 export default function SpotlightPage() {
-  const [refreshKey, setRefreshKey] = useState(0);
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-  const { data, isLoading, error } = useAPOD(1);
+  const [selectedDate, setSelectedDate] = useState<string | undefined>(
+    undefined
+  );
+  const { data, isLoading, error } = useAPOD(selectedDate);
 
-  const item = data?.[0];
-
-  const handleRefresh = () => {
-    setRefreshKey((prev) => prev + 1);
+  const handleRandomDate = () => {
+    // Generate random date between 1995-06-16 (APOD start) and today
+    const start = new Date(1995, 5, 16);
+    const end = new Date();
+    const randomTime =
+      start.getTime() + Math.random() * (end.getTime() - start.getTime());
+    const randomDate = new Date(randomTime);
+    setSelectedDate(randomDate.toISOString().split("T")[0]);
   };
 
   return (
-    <div className="min-h-screen">
-      <SiteHeader />
-
-      <main className="container py-8">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="mb-2 flex items-center gap-3 font-bold text-4xl text-balance md:text-5xl">
-              <Sparkles className="h-10 w-10 text-primary" />
-              Cosmic Spotlight
-            </h1>
-            <p className="text-lg text-muted-foreground text-pretty">
-              Discover a random astronomy picture of the day from NASA's APOD
-              collection
-            </p>
-          </div>
-
-          <Button
-            onClick={handleRefresh}
-            disabled={isLoading}
-            size="lg"
-            className="gap-2"
-          >
-            <RefreshCw
-              className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
-            />
-            New Image
-          </Button>
-        </div>
-
-        {isLoading && !item ? (
-          <div className="flex min-h-[600px] items-center justify-center">
-            <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          </div>
-        ) : error ? (
-          <div className="flex min-h-[400px] items-center justify-center">
-            <div className="text-center">
-              <h2 className="mb-2 font-bold text-2xl">Failed to load APOD</h2>
-              <p className="text-muted-foreground">Please try again later</p>
+    <main className="relative w-full md:pt-24 pb-8 md:pb-16">
+      <div className="container mx-auto">
+        {isLoading ? (
+          <div className="flex flex-1 items-center justify-center mt-20">
+            <div className="text-center space-y-4">
+              <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-white/40 border-t-white" />
+              <p className="text-white/60 text-lg">Loading cosmic wonders...</p>
             </div>
           </div>
-        ) : item ? (
-          <div className="grid gap-8 lg:grid-cols-2">
-            <Card className="overflow-hidden border-border/50 bg-card">
-              <div className="relative aspect-video overflow-hidden bg-secondary">
-                {item.mediaType === "image" ? (
+        ) : error || data === null ? (
+          <div className="flex flex-1 items-center justify-center px-6 mt-32 max-w-lg mx-auto">
+            <div className="text-center space-y-2">
+              {error.status === 404 || error.status === 400 ? (
+                <>
                   <Image
-                    src={item.imageUrl || "/placeholder.svg"}
-                    alt={item.title}
-                    fill
-                    className="object-cover"
-                    priority
-                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    src="/telescope.png"
+                    alt="Telescope"
+                    width={200}
+                    height={200}
+                    className="mx-auto"
                   />
-                ) : (
-                  <div
-                    className="group relative h-full w-full cursor-pointer"
-                    onClick={() => setSelectedVideo(item.videoUrl || null)}
-                  >
-                    <Image
-                      src={item.imageUrl || "/placeholder.svg"}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
-                      priority
+                  <p className="text-white/70 text-base leading-relaxed">
+                    No cosmic snapshot for this date, try another day in the
+                    universe's timeline.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <Image
+                    src="/space-cat.png"
+                    alt="Space Cat"
+                    width={200}
+                    height={200}
+                    className="mx-auto"
+                  />
+
+                  <h2 className="font-bold text-xl text-white">
+                    This service is currently unavailable
+                  </h2>
+                  <p className="text-white/70">
+                    perhaps the universe is taking a break. Please try again
+                    later
+                  </p>
+                </>
+              )}
+              <div className="lg:col-span-4 flex flex-col gap-3 mt-8">
+                <div className="flex-shrink-0 space-y-3">
+                  <div className="flex flex-row gap-3 w-full">
+                    <CustomDatePicker
+                      timestamp={undefined}
+                      setSelectedDate={setSelectedDate}
+                      startDay={16}
+                      startMonth={6}
+                      startYear={1995}
                     />
-                    <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm transition-all group-hover:bg-background/70">
-                      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform group-hover:scale-110">
-                        <svg
-                          className="h-10 w-10"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
+                    <Button
+                      onClick={handleRandomDate}
+                      variant="outline"
+                      className="flex-1 border-white/20 bg-black/40 text-white"
+                    >
+                      <PiShootingStarBold className="h-4 w-4 mr-2" />
+                      Surprise Me
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : data ? (
+          <>
+            {/* Image / Video */}
+            <div className="max-w-5xl mx-auto mb-6">
+              {/* Media Display */}
+              <div className="relative w-full aspect-video">
+                {data.mediaType === "image" ? (
+                  <>
+                    <div className="relative w-full md:h-[calc(100vh-6rem)] md:w-1/2 md:fixed md:left-0 md:top-24 flex items-start justify-center md:items-center md:p-8">
+                      <div className="relative w-full md:w-full md:h-full md:max-w-3xl md:max-h-[85vh]">
+                        <Image
+                          src={data.url}
+                          alt={data.title}
+                          width={1200}
+                          height={800}
+                          className="w-full h-auto md:hidden object-contain object-top"
+                          priority
+                          sizes="100vw"
+                        />
                       </div>
                     </div>
+                    <Image
+                      src={data.url}
+                      alt={data.title}
+                      fill
+                      className="hidden md:block object-contain rounded-2xl"
+                      priority
+                      sizes="(max-width: 1280px) 100vw, 1280px"
+                    />
+                  </>
+                ) : (
+                  <div className="group relative h-full w-full cursor-pointer bg-black">
+                    <iframe
+                      src={data.url}
+                      className="h-full w-full rounded-lg"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title="NASA Video"
+                    />
                   </div>
                 )}
               </div>
 
-              {item.hdImageUrl && item.mediaType === "image" && (
-                <div className="border-t border-border/50 bg-secondary/50 p-4">
-                  <a
-                    href={item.hdImageUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                    View HD Version
-                  </a>
-                </div>
+              {/* Copyright */}
+              {data.copyright && (
+                <p className="text-sm my-4 text-white/60 text-center">
+                  <span className="font-semibold text-white/80">
+                    Image Credit & Copyright:
+                  </span>{" "}
+                  {data.copyright}
+                </p>
               )}
-            </Card>
+            </div>
+            {/* Info Card */}
+            <div className="max-w-2xl mx-auto px-6 md:px-0">
+              {data.copyright && <Separator className="opacity-20 mb-6" />}
 
-            <div className="flex flex-col gap-6">
-              <div>
-                <div className="mb-4 flex items-center gap-3">
-                  <Badge variant="secondary" className="gap-1">
-                    <Calendar className="h-3 w-3" />
-                    {new Date(item.date).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </Badge>
-
-                  {item.mediaType === "video" && (
-                    <Badge variant="default" className="gap-1">
-                      Video
-                    </Badge>
-                  )}
+              {/* Date and Type Badges */}
+              <div className="flex-shrink-0 space-y-3 mx-auto mb-8">
+                <Label htmlFor="date" className="px-1 text-sm">
+                  Select a date to explore
+                </Label>
+                <div className="flex flex-row gap-3 w-full">
+                  <CustomDatePicker
+                    timestamp={data.date}
+                    setSelectedDate={setSelectedDate}
+                    startDay={16}
+                    startMonth={6}
+                    startYear={1995}
+                  />
+                  <Button
+                    onClick={handleRandomDate}
+                    variant="outline"
+                    className="flex-1 border-white/20 bg-black/40 text-white"
+                  >
+                    <PiShootingStarBold className="h-4 w-4 mr-2" />
+                    Surprise Me
+                  </Button>
                 </div>
+              </div>
 
-                <h2 className="mb-4 font-bold text-3xl text-balance leading-tight">
-                  {item.title}
+              <div className="space-y-6">
+                {/* Title */}
+                <h2 className="font-bold text-4xl md:text-5xl mb-2 text-white leading-tight">
+                  {data.title}
                 </h2>
 
-                <div className="prose prose-invert max-w-none">
-                  <p className="text-foreground/90 leading-relaxed">
-                    {item.description}
-                  </p>
+                <div className="flex items-center gap-2 text-white/70">
+                  <Calendar className="h-4 w-4" />
+                  {new Date(data.date).toLocaleDateString("en-GB", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
                 </div>
-              </div>
 
-              {item.copyright && (
-                <Card className="border-border/50 bg-secondary/30 p-4">
-                  <p className="text-sm text-muted-foreground">
-                    <span className="font-semibold">Copyright:</span>{" "}
-                    {item.copyright}
-                  </p>
-                </Card>
-              )}
-
-              <div className="mt-auto">
-                <NASAAttribution />
+                {/* Description */}
+                <p className="leading-relaxed text-base md:text-lg break-words overflow-wrap-anywhere text-white/80">
+                  {data.description}
+                </p>
               </div>
             </div>
-          </div>
+          </>
         ) : null}
-      </main>
-
-      {selectedVideo && (
-        <VideoModal
-          url={selectedVideo}
-          onClose={() => setSelectedVideo(null)}
-        />
-      )}
-    </div>
+      </div>
+    </main>
   );
 }
