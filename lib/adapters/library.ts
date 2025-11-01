@@ -5,9 +5,22 @@ import type {
 } from "@/lib/types";
 
 const libraryKeywords: string[] = [
+  "Saturn",
+  "Neptune",
+  "Uranus",
+  "Pluto",
+  "Ceres",
+  "Vesta",
+  "Mercury",
+  "Venus",
+  "Earth",
+  "Mars",
+  "Jupiter",
   "galaxy",
   "nebula",
   "planet",
+  "Neutron star",
+  "Cluster",
   "star",
   "comet",
   "asteroid",
@@ -28,12 +41,10 @@ const libraryKeywords: string[] = [
   "eclipse",
   "meteor",
   "constellation",
-  "dark matter",
   "exoplanet",
   "quasar",
   "pulsar",
   "gravity",
-  "light year",
   "interstellar",
   "cosmic",
   "orbital",
@@ -45,17 +56,14 @@ const libraryKeywords: string[] = [
   "cosmology",
   "space exploration",
   "deep space",
-  "Hubble",
-  "James Webb",
-  "Voyager",
-  "Mars rover",
-  "Saturn",
-  "Jupiter",
   "Andromeda",
   "Milky Way",
   "Aurora",
   "Big Bang",
   "Black Hole",
+  "wormhole",
+  "Galaxy Clusters",
+  "dark Matter",
   "Nebulae",
   "Supernovae",
   "Exoplanets",
@@ -64,6 +72,12 @@ const libraryKeywords: string[] = [
   "Dark Energy",
   "Cosmic Microwave Background",
   "Gravitational Waves",
+  "Event Horizon",
+  "Intergalactic",
+  "Redshift",
+  "Hubble",
+  "James Webb",
+  "Voyager",
 ];
 
 export async function fetchLibraryImages(
@@ -80,12 +94,19 @@ export async function fetchLibraryImages(
   } else {
     // --- Randomize keyword selection ---
     const shuffled = libraryKeywords.sort(() => Math.random() - 0.5);
-    const randomKeywords = shuffled.slice(0, 3 + Math.floor(Math.random() * 4)); // pick 3–6 keywords
+    const randomKeywords = shuffled.slice(0, 3 + Math.floor(Math.random() * 4)); // pick 3-7 keywords
     params.set("keywords", randomKeywords.join(","));
 
     // --- Randomize page ---
     const randomPage = 1 + Math.floor(Math.random() * 5); // random page 1–5
     params.set("page", randomPage.toString());
+
+    console.log(
+      "Searching library with keywords:",
+      randomKeywords,
+      "on page:",
+      randomPage
+    );
   }
 
   const response = await fetch(
