@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { AmbientSoundToggle } from "./ambient-sound-toggle";
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const GlassSurface = dynamic(() => import("./GlassSurface"), {
   ssr: false,
@@ -30,7 +31,12 @@ export function Header() {
             href="/"
             className="pointer-events-auto text-white flex min-h-[44px] min-w-[44px] items-center font-bold text-2xl opacity-60  transition-opacity hover:opacity-100"
           >
-            Astralis
+            <Image
+              src="/app-logo.png"
+              alt="Astralis Logo"
+              width={120}
+              height={120}
+            />
           </Link>
 
           {/* Toast Navigation */}

@@ -98,7 +98,7 @@ export default async function ItemDetailPage({
       </div>
 
       {/* Scrollable Content - Right Half */}
-      <div className="w-full md:w-1/2 md:ml-auto">
+      <div className="w-full md:w-1/2 md:ml-auto mb-12">
         <div className="min-h-screen px-6 py-8 md:px-12 md:px-10">
           <div className="mx-auto max-w-2xl space-y-6">
             {/* Title */}
