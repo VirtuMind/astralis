@@ -24,12 +24,23 @@ export async function fetchAPOD(
 }
 
 export function normalizeAPOD(item: APODItem): NormalizedAPODItem {
+  let imageUrl;
+  if (item.media_type === "image") {
+    if (item.hdurl?.match(/\.(tiff|tif)$/i)) {
+      // TIFF images are not supported
+      imageUrl = item.url;
+    } else {
+      imageUrl = item.hdurl;
+    }
+  } else {
+    imageUrl = item.url;
+  }
   return {
     date: item.date,
     title: item.title,
     description: item.explanation,
     mediaType: item.media_type,
-    url: item.media_type === "image" ? item.hdurl || item.url : item.url,
+    url: imageUrl || item.url,
     copyright: item.copyright,
   };
 }
