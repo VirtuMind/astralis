@@ -45,8 +45,8 @@ export default function HomePage() {
   if (error || (!isLoading && allItems.length === 0)) {
     return (
       <>
-        <main className="flex min-h-screen items-center justify-center">
-          <div className="text-center">
+        <div className="flex flex-1 items-center justify-center px-6 mt-32 max-w-lg mx-auto">
+          <div className="text-center space-y-2">
             <Image
               src="/space-cat.png"
               alt="Space Cat"
