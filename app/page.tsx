@@ -62,7 +62,7 @@ export default function HomePage() {
               perhaps the universe is taking a break. Please try again later
             </p>
           </div>
-        </main>
+        </div>
       </>
     );
   }
