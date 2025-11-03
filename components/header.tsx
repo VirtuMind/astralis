@@ -97,8 +97,8 @@ export function Header() {
             width="100%"
             height="auto"
             borderRadius={20}
-            saturation={0.3}
-            backgroundOpacity={0.7}
+            saturation={0.5}
+            backgroundOpacity={0.2}
           >
             <nav className="flex w-full flex-col items-stretch py-1">
               {navigation.map((item, index) => {
