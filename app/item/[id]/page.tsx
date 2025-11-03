@@ -5,10 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { ShareButtons } from "@/components/share-buttons";
 import { Calendar, HelpCircle } from "lucide-react";
 import { LibrarySearchResponse } from "@/lib/types";
-import {
-  fetchLibraryImages,
-  normalizeLibraryItem,
-} from "@/lib/adapters/library";
+import { fetchLibraryItem, normalizeLibraryItem } from "@/lib/adapters/library";
 import {
   Tooltip,
   TooltipContent,
@@ -24,7 +21,8 @@ export default async function ItemDetailPage({
 }) {
   const { id } = await params;
 
-  const data: LibrarySearchResponse | null = await fetchLibraryImages(1, id);
+  // I am not using SWR to make this page fully server-side rendered
+  const data: LibrarySearchResponse = await fetchLibraryItem(id);
   const item = normalizeLibraryItem(data.collection.items[0]);
 
   if (!item) {

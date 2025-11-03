@@ -66,33 +66,44 @@ const libraryKeywords: string[] = [
 ];
 
 export async function fetchLibraryImages(
-  page = 1,
-  nasaId?: string
+  page = 1
 ): Promise<LibrarySearchResponse> {
   const params = new URLSearchParams({
-    media_type: "image",
     page: page.toString(),
+    media_type: "image",
+    page_size: "25",
   });
 
-  if (nasaId) {
-    params.set("nasa_id", nasaId);
-  } else {
-    // --- Randomize keyword selection ---
-    const shuffled = libraryKeywords.sort(() => Math.random() - 0.5);
-    const randomKeywords = shuffled.slice(0, 5 + Math.floor(Math.random() * 5)); // pick 5-9 keywords
-    params.set("keywords", randomKeywords.join(","));
+  // --- Randomize keyword selection ---
+  const shuffled = libraryKeywords.sort(() => Math.random() - 0.5);
+  const randomKeywords = shuffled.slice(0, 3 + Math.floor(Math.random() * 3)); // pick 3-5 keywords
+  params.set("keywords", randomKeywords.join(","));
 
-    // --- Randomize page ---
-    const randomPage = 1 + Math.floor(Math.random() * 5); // random page 1–5
-    params.set("page", randomPage.toString());
+  console.log(
+    "Searching library with keywords:",
+    randomKeywords,
+    "on page:",
+    page
+  );
 
-    console.log(
-      "Searching library with keywords:",
-      randomKeywords,
-      "on page:",
-      randomPage
-    );
+  const response = await fetch(
+    `https://images-api.nasa.gov/search?${params.toString()}`
+  );
+
+  if (!response.ok) {
+    throw new Error(`Image Search API error: ${response.statusText}`);
   }
+
+  return response.json();
+}
+
+export async function fetchLibraryItem(
+  nasaId: string
+): Promise<LibrarySearchResponse> {
+  const params = new URLSearchParams({
+    page: "1",
+    nasa_id: nasaId,
+  });
 
   const response = await fetch(
     `https://images-api.nasa.gov/search?${params.toString()}`
