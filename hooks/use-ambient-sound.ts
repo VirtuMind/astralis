@@ -13,6 +13,9 @@ export function useAmbientSound() {
     // audio.volume = 0.3;
     audio.preload = "auto";
 
+    // iOS support
+    audio.setAttribute("playsinline", "true");
+
     audio.addEventListener("canplaythrough", () => setIsLoaded(true));
 
     audioRef.current = audio;

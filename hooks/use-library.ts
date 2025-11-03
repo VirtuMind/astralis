@@ -8,7 +8,10 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 export function useLibrarySearch(page: number) {
   const { data, error, isLoading } = useSWR<NormalizedLibraryItem[]>(
     `/api/library?page=${page}`,
-    fetcher
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    }
   );
 
   return {
