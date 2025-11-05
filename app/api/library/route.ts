@@ -16,7 +16,6 @@ export async function GET(request: NextRequest) {
   const cached = cache.get(cacheKey);
 
   if (cached) {
-    console.log("Returning cached data for key:", cacheKey);
     return NextResponse.json(cached);
   }
 
@@ -41,8 +40,8 @@ export async function GET(request: NextRequest) {
     // Shuffle results to mix items from different fetches
     const shuffledResult = uniqueItems.sort(() => Math.random() - 0.5);
 
-    // Cache the final result for 30 minutes
-    cache.set(cacheKey, shuffledResult, 30);
+    // Cache the final result for 5 minutes
+    cache.set(cacheKey, shuffledResult, 5);
 
     return NextResponse.json(shuffledResult);
   } catch (error) {
