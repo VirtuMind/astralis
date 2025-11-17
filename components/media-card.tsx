@@ -36,7 +36,7 @@ export function MediaCard({ item, priority = false }: MediaCardProps) {
 
         {!imageLoaded && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <Spinner className="size-8 text-white" />
+            <Spinner className="size-8 text-white/70" />
           </div>
         )}
       </div>

@@ -21,13 +21,14 @@ export function MasonryGrid({
   const observerTarget = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(1);
 
+  // Update number of columns based on screen width
   useEffect(() => {
     const updateColumns = () => {
       const width = window.innerWidth;
-      if (width >= 1440) setColumns(4); // ≥1440px
-      else if (width >= 1024) setColumns(3); // ≥1024px
-      else if (width >= 768) setColumns(2); // ≥768px
-      else setColumns(1); // <768px
+      if (width >= 1440) setColumns(4);
+      else if (width >= 1024) setColumns(3);
+      else if (width >= 768) setColumns(2);
+      else setColumns(1);
     };
 
     updateColumns();
@@ -58,7 +59,7 @@ export function MasonryGrid({
     };
   }, [hasMore, isLoading, onLoadMore]);
 
-  // Distribute items across columns
+  // Distribute items across columns evenly
   const columnItems: NormalizedLibraryItem[][] = Array.from(
     { length: columns },
     () => []
@@ -87,8 +88,8 @@ export function MasonryGrid({
       </div>
 
       {hasMore && (
-        <div ref={observerTarget} className="flex justify-center py-8">
-          {isLoading && <Spinner className="size-8 text-white" />}
+        <div ref={observerTarget} className="flex justify-center py-10">
+          {isLoading && <Spinner className="size-8 text-white/70" />}
         </div>
       )}
     </>

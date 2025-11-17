@@ -10,6 +10,7 @@ import { ShareButtons } from "@/components/share-buttons";
 import type { NormalizedLibraryItem } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import DOMPurify from "isomorphic-dompurify";
+import { Spinner } from "./ui/spinner";
 
 interface MobileSnapScrollProps {
   items: NormalizedLibraryItem[];
@@ -229,13 +230,12 @@ export function MobileSnapScroll({
           );
         })}
 
-        {/* Loading indicator */}
         {isLoading && (
           <div
             className="flex w-full snap-start items-center justify-center"
             style={{ height: "calc(var(--vh, 1vh) * 100)" }}
           >
-            <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+            <Spinner className="size-10 text-white/70" />
           </div>
         )}
       </div>
