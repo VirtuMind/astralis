@@ -5,7 +5,7 @@ import { GeistMono } from "geist/font/mono";
 import "@/styles/globals.css";
 import { Header } from "@/components/header";
 import GalaxyWrapper from "@/components/wrappers/GalaxyWrapper";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
 export const metadata: Metadata = {
   metadataBase: new URL("https://astralis.khoubaz.com"),
   title: {
