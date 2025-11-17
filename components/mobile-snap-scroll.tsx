@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/share-buttons";
 import type { NormalizedLibraryItem } from "@/lib/types";
 import { useRouter } from "next/navigation";
-import DOMPurify from "isomorphic-dompurify";
+import sanitizeHtml from "sanitize-html";
 import { Spinner } from "./ui/spinner";
 
 interface MobileSnapScrollProps {
@@ -211,7 +211,7 @@ export function MobileSnapScroll({
                       <p
                         className="text-sm text-white/90 leading-relaxed"
                         dangerouslySetInnerHTML={{
-                          __html: DOMPurify.sanitize(item.description),
+                          __html: sanitizeHtml(item.description),
                         }}
                       ></p>
                     </div>

@@ -13,8 +13,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Link from "next/link";
-import DOMPurify from "isomorphic-dompurify";
-
+import sanitizeHtml from "sanitize-html";
 export default async function ItemDetailPage({
   params,
 }: {
@@ -121,7 +120,7 @@ export default async function ItemDetailPage({
             <p
               className="leading-relaxed text-base md:text-lg break-words overflow-wrap-anywhere text-white/90"
               dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(item.description),
+                __html: sanitizeHtml(item.description),
               }}
             ></p>
 
