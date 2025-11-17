@@ -1,12 +1,20 @@
 "use client";
 
+import { useMobile } from "@/hooks/use-mobile";
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 
 const Galaxy = dynamic(() => import("@/components/Galaxy"), {
   ssr: false,
 });
 
-export function GalaxyWrapper() {
+const GalaxyWrapper = () => {
+  const isMobile = useMobile();
+  const pathname = usePathname();
+
+  const isHome = pathname === "/";
+
+  if (isHome && isMobile) return null;
   return (
     <div className="fixed inset-0 -z-10 h-screen w-full">
       <Galaxy
@@ -17,4 +25,6 @@ export function GalaxyWrapper() {
       />
     </div>
   );
-}
+};
+
+export default GalaxyWrapper;

@@ -4,7 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "@/styles/globals.css";
 import { Header } from "@/components/header";
-import { GalaxyWrapper } from "@/components/wrappers/GalaxyWrapper";
+import GalaxyWrapper from "@/components/wrappers/GalaxyWrapper";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://astralis.khoubaz.com"),
