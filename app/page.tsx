@@ -7,6 +7,7 @@ import { useLibrarySearch } from "@/hooks/use-library";
 import { useMobile } from "@/hooks/use-mobile";
 import { NormalizedLibraryItem } from "@/lib/types";
 import Image from "next/image";
+import { Spinner } from "@/components/ui/spinner";
 
 const ITEMS_PER_PAGE = Number.parseInt(process.env.NEXT_PUBLIC_PAGE_SIZE!);
 
@@ -42,7 +43,21 @@ export default function HomePage() {
     }
   }, [isLoading, hasMore, page]);
 
-  if (error || (!isLoading && allItems.length === 0)) {
+  const initialLoading =
+    isLoading && allItems.length === 0 && !error && page === 1;
+
+  if (initialLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Spinner className="size-10 text-white/70" />
+      </div>
+    );
+  }
+
+  const noResultsAfterLoad =
+    !isLoading && !error && allItems.length === 0 && data && data.length === 0;
+
+  if (error || noResultsAfterLoad) {
     return (
       <>
         <div className="flex flex-1 items-center justify-center px-6 mt-32 max-w-lg mx-auto">
@@ -69,7 +84,7 @@ export default function HomePage() {
 
   const displayItems = allItems.length > 0 ? allItems : [];
 
-  if (isMobile && displayItems.length > 0) {
+  if (isMobile) {
     return (
       <>
         <MobileSnapScroll
