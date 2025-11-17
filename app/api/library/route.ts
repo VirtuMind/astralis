@@ -9,7 +9,8 @@ import { NormalizedLibraryItem } from "@/lib/types";
 
 export async function GET(request: NextRequest) {
   // Build a robust cache key
-  const cacheKey = `library-search-all`;
+  const page = request.nextUrl.searchParams.get("page") || "all";
+  const cacheKey = `library-search-${page}`;
   const cached = cache.get(cacheKey);
 
   if (cached) {
