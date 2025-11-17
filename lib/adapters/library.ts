@@ -63,27 +63,32 @@ const libraryKeywords: string[] = [
   "Hubble",
   "James Webb",
   "Voyager",
+  "Cassini",
+  "Apollo",
+  "ISS",
+  "SpaceX",
+  "Orion",
+  "Radiation",
 ];
 
-export async function fetchLibraryImages(
-  page = 1
-): Promise<LibrarySearchResponse> {
+export async function fetchLibraryImages(): Promise<LibrarySearchResponse> {
   const params = new URLSearchParams({
-    page: page.toString(),
     media_type: "image",
     page_size: "25",
   });
 
-  // --- Randomize keyword selection ---
+  // --- Randomize keywords and page ---
+  const randomPage = Math.floor(Math.random() * 100) + 1;
   const shuffled = libraryKeywords.sort(() => Math.random() - 0.5);
   const randomKeywords = shuffled.slice(0, 3 + Math.floor(Math.random() * 3)); // pick 3-5 keywords
   params.set("keywords", randomKeywords.join(","));
+  params.set("page", randomPage.toString());
 
   console.log(
     "Searching library with keywords:",
     randomKeywords,
     "on page:",
-    page
+    randomPage
   );
 
   const response = await fetch(

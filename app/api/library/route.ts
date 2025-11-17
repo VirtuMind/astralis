@@ -8,11 +8,8 @@ import { cache } from "@/lib/cache";
 import { NormalizedLibraryItem } from "@/lib/types";
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const page = searchParams.get("page") || "1";
-
-  // Build a cache key
-  const cacheKey = `library-search-all-page-${page}`;
+  // Build a robust cache key
+  const cacheKey = `library-search-all`;
   const cached = cache.get(cacheKey);
 
   if (cached) {
@@ -21,9 +18,7 @@ export async function GET(request: NextRequest) {
 
   try {
     // Make all 4 API calls in parallel
-    const fetchPromises = Array.from({ length: 4 }, () =>
-      fetchLibraryImages(Number.parseInt(page))
-    );
+    const fetchPromises = Array.from({ length: 4 }, () => fetchLibraryImages());
 
     const responses = await Promise.all(fetchPromises);
 
