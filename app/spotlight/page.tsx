@@ -9,8 +9,7 @@ import CustomDatePicker from "@/components/custom-date-picker";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
 import dynamic from "next/dynamic";
-import DOMPurify from "isomorphic-dompurify";
-
+import sanitizeHtml from "sanitize-html";
 const PiShootingStarBold = dynamic(
   () => import("react-icons/pi").then((mod) => mod.PiShootingStarBold),
   { ssr: false }
@@ -199,7 +198,7 @@ export default function SpotlightPage() {
                 <p
                   className="leading-relaxed text-base md:text-lg break-words overflow-wrap-anywhere text-white/80"
                   dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(data.description),
+                    __html: sanitizeHtml(data.description),
                   }}
                 ></p>
               </div>
