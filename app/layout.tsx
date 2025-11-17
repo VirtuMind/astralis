@@ -6,6 +6,7 @@ import "@/styles/globals.css";
 import { Header } from "@/components/header";
 import GalaxyWrapper from "@/components/wrappers/GalaxyWrapper";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 export const metadata: Metadata = {
   metadataBase: new URL("https://astralis.khoubaz.com"),
   title: {
@@ -46,6 +47,8 @@ export default function RootLayout({
         <GalaxyWrapper />
         <Header />
         <div className="relative min-h-screen">{children}</div>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
