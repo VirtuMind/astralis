@@ -101,7 +101,7 @@ export default async function ItemDetailPage({
         <div className="min-h-screen px-6 py-8 md:px-12 md:px-10">
           <div className="mx-auto max-w-2xl space-y-6">
             {/* Title */}
-            <h1 className="font-bold text-4xl md:text-5xl mb-2 text-white leading-tight">
+            <h1 className="font-bold text-3xl md:text-5xl mb-2 text-white leading-tight">
               {item.title}
             </h1>
 

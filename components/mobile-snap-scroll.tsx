@@ -160,12 +160,13 @@ export function MobileSnapScroll({
         {items.map((item, index) => {
           // tiff/tif are unsupported by Next.js Image
           const isTiffImage =
-            item.hdImageUrl?.toLowerCase().endsWith(".tif") ||
-            item.hdImageUrl?.toLowerCase().endsWith(".tiff");
+            item.mediumImageUrl?.toLowerCase().endsWith(".tif") ||
+            item.mediumImageUrl?.toLowerCase().endsWith(".tiff");
 
           const imageUrl = isTiffImage
             ? item.thumbnailUrl
-            : item.hdImageUrl || item.thumbnailUrl || "/placeholder.svg";
+            : item.mediumImageUrl || item.thumbnailUrl || "/placeholder.svg";
+
           return (
             <div
               key={item.nasa_id}

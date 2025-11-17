@@ -126,6 +126,14 @@ export function normalizeLibraryItem(
   const data = item.data[0];
   const thumbnail = item.links?.find((l) => l.rel === "preview");
   const hdImage = item.links?.find((l) => l.rel === "canonical");
+  const mediumImage =
+    hdImage && hdImage.size && hdImage.size < 1_000_000
+      ? hdImage
+      : item.links
+          ?.filter((l) => l.rel === "alternate" && l.size && l.size < 1_000_000) // just in case an alternate that is > 1MB
+          .sort((a, b) => {
+            return (b.size || 0) - (a.size || 0);
+          })[0];
 
   if (!data || !thumbnail) return null;
 
@@ -135,6 +143,7 @@ export function normalizeLibraryItem(
     description: data.description,
     thumbnailUrl: thumbnail.href,
     hdImageUrl: hdImage?.href,
+    mediumImageUrl: mediumImage?.href,
     date: data.date_created,
     keywords: data.keywords,
   };

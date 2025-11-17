@@ -65,6 +65,7 @@ export interface NormalizedLibraryItem {
   description: string;
   thumbnailUrl: string;
   hdImageUrl?: string;
+  mediumImageUrl?: string;
   date: string;
   keywords?: string[];
 }
