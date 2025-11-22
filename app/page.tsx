@@ -90,7 +90,7 @@ export default function HomePage() {
         <MobileSnapScroll
           items={displayItems}
           onLoadMore={handleLoadMore}
-          hasMore={data ? data.length > displayItems.length : false}
+          hasMore={hasMore}
           isLoading={isLoading}
         />
       </>
