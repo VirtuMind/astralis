@@ -15,74 +15,58 @@ const libraryKeywords: string[] = [
   "Jupiter",
   "galaxy",
   "nebula",
-  "planet",
   "Neutron star",
   "Cluster",
   "star",
-  "comet",
-  "asteroid",
   "supernova",
   "black hole",
   "cosmos",
-  "universe",
-  "spacecraft",
-  "astronaut",
-  "solar system",
-  "moon",
-  "rocket",
   "sun",
   "eclipse",
   "meteor",
   "constellation",
   "quasar",
   "pulsar",
-  "interstellar",
-  "cosmic",
-  "orbital",
-  "celestial",
-  "lunar",
-  "stellar",
-  "astrophysics",
-  "cosmology",
   "Andromeda",
   "Milky Way",
   "Aurora",
-  "Big Bang",
   "Black Hole",
   "wormhole",
-  "Galaxy Clusters",
   "dark Matter",
   "Nebulae",
-  "Supernovae",
+  "Supernova",
   "Pulsars",
   "Quasars",
-  "Gravitational Waves",
-  "Event Horizon",
-  "Intergalactic",
-  "Redshift",
   "Hubble",
   "James Webb",
-  "Voyager",
   "Cassini",
-  "Apollo",
-  "ISS",
-  "SpaceX",
   "Orion",
-  "Radiation",
+  "Apollo",
+  "Crab Nebula",
+  "Horsehead Nebula",
+  "Eagle Nebula",
+  "Lagoon Nebula",
+  "Sombrero Galaxy",
+  "Whirlpool Galaxy",
+  "Pinwheel Galaxy",
 ];
 
 export async function fetchLibraryImages(): Promise<LibrarySearchResponse> {
+  // --- Randomize keywords and page ---
+  const randomPage = Math.floor(Math.random() * 20) + 1;
+  const shuffled = libraryKeywords.sort(() => Math.random() - 0.5);
+  const randomKeywords = shuffled.slice(0, 3 + Math.floor(Math.random() * 3)); // pick 3-5 keywords
+
+  // pick a random keyword
+  const randomKeyword = shuffled[0];
+
   const params = new URLSearchParams({
     media_type: "image",
     page_size: "25",
+    // q: randomKeyword,
+    keywords: randomKeywords.join(","),
+    page: randomPage.toString(),
   });
-
-  // --- Randomize keywords and page ---
-  const randomPage = Math.floor(Math.random() * 100) + 1;
-  const shuffled = libraryKeywords.sort(() => Math.random() - 0.5);
-  const randomKeywords = shuffled.slice(0, 3 + Math.floor(Math.random() * 3)); // pick 3-5 keywords
-  params.set("keywords", randomKeywords.join(","));
-  params.set("page", randomPage.toString());
 
   console.log(
     "Searching library with keywords:",
