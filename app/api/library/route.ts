@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import {
   fetchLibraryImages,
-  fetchLibraryItem,
   normalizeLibraryItem,
 } from "@/lib/adapters/library";
 import { cache } from "@/lib/cache";
@@ -13,9 +12,9 @@ export async function GET(request: NextRequest) {
   const cacheKey = `library-search-${page}`;
   const cached = cache.get(cacheKey);
 
-  if (cached) {
-    return NextResponse.json(cached);
-  }
+  // if (cached) {
+  //   return NextResponse.json(cached);
+  // }
 
   try {
     // Make all 4 API calls in parallel
@@ -37,7 +36,9 @@ export async function GET(request: NextRequest) {
     const shuffledResult = uniqueItems.sort(() => Math.random() - 0.5);
 
     // Cache the final result for 5 minutes
-    cache.set(cacheKey, shuffledResult, 5);
+    // cache.set(cacheKey, shuffledResult, 5);
+
+    console.log("length of the result: ", shuffledResult.length);
 
     return NextResponse.json(shuffledResult);
   } catch (error) {
