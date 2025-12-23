@@ -21,7 +21,7 @@ export async function fetchEPIC(date?: string): Promise<EPICItem[]> {
 export function normalizeEPIC(item: EPICItem): NormalizedEPICItem {
   const date = item.date.split(" ")[0];
   const [year, month, day] = date.split("-");
-  const imageUrl = `https://epic.gsfc.nasa.gov/archive/natural/${year}/${month}/${day}/png/${item.image}.png`;
+  const imageUrl = `https://epic.gsfc.nasa.gov/archive/natural/${year}/${month}/${day}/jpg/${item.image}.jpg`;
 
   // Calculate distance between two position vectors in 3D space
   const calculateDistance = (
